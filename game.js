@@ -1,18 +1,18 @@
 var game;
 
-//Concentra todas as opções do jogo
+// Concentra todas as opções do jogo
 var gameOptions = {
-    scorePanelHeight: 0.08,    //Altura da tela (porcentagem da tela)
-    launchPanelHeight: 0.18,   //Altura do painel de lançamento (porcentagem da tela)
-    ballSize: 0.04,            //Tamanho da bola (porcentagem da tela)
-    ballSpeed: 1000,            //Velocidade da bola (pixels)
+    scorePanelHeight: 0.08,    // Altura da tela (porcentagem da tela)
+    launchPanelHeight: 0.18,   // Altura do painel de lançamento (porcentagem da tela)
+    ballSize: 0.04,            // Tamanho da bola (porcentagem da tela)
+    ballSpeed: 1000,           // Velocidade da bola (pixels)
     blocksPerLine: 7,
     maxBlocksPerLine: 4
 };
 
 window.onload = function () {
-    game = new Phaser.Game(640, 960, Phaser.AUTO);  //Cria um jogo passando largura e altura
-    game.state.add("PlayGame", playGame, true);     //Adiciona primeiro state (state = tela)
+    game = new Phaser.Game(640, 960, Phaser.AUTO);  // Cria um jogo passando largura e altura
+    game.state.add("PlayGame", playGame, true);     // Adiciona primeiro state (state = tela)
 }
 
 var playGame = function () { }
@@ -26,16 +26,16 @@ playGame.prototype = {
     },
 
     create: function () {
-        //Centraliza o jogo e seta a cor de fundo
+        // Centraliza o jogo e seta a cor de fundo
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
         game.stage.backgroundColor = 0x202020;
 
-        //Inicia o sistema de física do jogo
+        // Inicia o sistema de física do jogo
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        //Seta o painel de score no canto superior esquerdo da tela
+        // Seta o painel de score no canto superior esquerdo da tela
         this.scorePanel = game.add.sprite(0, 0, "panel");
         this.scorePanel.width = game.width;
         this.scorePanel.height = Math.round(game.height * gameOptions.scorePanelHeight);
@@ -64,13 +64,13 @@ playGame.prototype = {
         this.trajectory.anchor.set(0.5, 1);
         this.trajectory.visible = false;
 
-        //Executa ação quando o mouse é puxado pra baixo
+        // Executa ação quando o mouse é puxado pra baixo
         game.input.onDown.add(this.aimBall, this);
 
-        //Executa ação no click
+        // Executa ação no click
         game.input.onUp.add(this.shootBall, this);
 
-        //Executa em qualquer movimento do mouse
+        // Executa em qualquer movimento do mouse
         game.input.addMoveCallback(this.adjustBall, this);
 
         this.aiming = false;
@@ -109,7 +109,7 @@ playGame.prototype = {
 
     adjustBall: function (e) {
         if (this.aiming) {
-            var distY = e.position.y - e.positionDown.y;    //Diferença entre a posição atual e a anterior
+            var distY = e.position.y - e.positionDown.y;    // Diferença entre a posição atual e a anterior
 
             if (distY > 10) {
                 this.trajectory.position.set(this.ball.x, this.ball.y);
@@ -118,7 +118,7 @@ playGame.prototype = {
                 // Calcula o ângulo entre as posições atuais e antigas
                 this.direction = Phaser.Math.angleBetween(e.position.x, e.position.y, e.positionDown.x, e.positionDown.y);
 
-                //Ajusta a direção da mira 
+                // Ajusta a direção da mira 
                 this.trajectory.angle = Phaser.Math.radToDeg(this.direction) + 90;
             } else {
                 this.trajectory.visible = false;
