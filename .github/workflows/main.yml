@@ -13,8 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Configure SSH
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
           mkdir -p ~/.ssh/
           echo "$SSH_KEY" > ~/.ssh/server.key
@@ -30,6 +28,7 @@ jobs:
             StrictHostKeyChecking no
           END
         env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
           SSH_USER: ${{secrets.SSH_USER}}
           SSH_KEY: ${{secrets.SSH_KEY}}
           SSH_HOST: ${{secrets.SSH_HOST}}
