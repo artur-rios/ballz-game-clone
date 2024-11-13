@@ -17,9 +17,6 @@ jobs:
           mkdir -p ~/.ssh/
           echo "$SSH_KEY" > ~/.ssh/server.key
           chmod 600 ~/.ssh/server.key
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "${{secrets.SSH_KEY}}"
           cat >>~/.ssh/config <<END
           Host server
             HostName $SSH_HOST
@@ -28,7 +25,6 @@ jobs:
             StrictHostKeyChecking no
           END
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
           SSH_USER: ${{secrets.SSH_USER}}
           SSH_KEY: ${{secrets.SSH_KEY}}
           SSH_HOST: ${{secrets.SSH_HOST}}
