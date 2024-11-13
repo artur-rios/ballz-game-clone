@@ -17,6 +17,7 @@ jobs:
           mkdir -p ~/.ssh/
           echo "$SSH_KEY" > ~/.ssh/server.key
           chmod 600 ~/.ssh/server.key
+          ssh-keyscan -H ${{secrets.SSH_HOST}} > ~/.ssh/known_hosts
           cat >>~/.ssh/config <<END
           Host server
             HostName $SSH_HOST
