@@ -18,7 +18,7 @@ jobs:
           echo "$SSH_KEY" > ~/.ssh/server.key
           chmod 600 ~/.ssh/server.key
           cat >>~/.ssh/config <<END
-          Host staging
+          Host server
             HostName $SSH_HOST
             User $SSH_USER
             IdentityFile ~/.ssh/server.key
@@ -28,11 +28,15 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
+
       - name: Pull from github
         run: ssh server 'cd /repo/ballz-game-clone && git pull'
+
       - name: Install dependencies
         run: ssh server 'npm install'
+
       - name: Build project
         run: ssh server 'npm run build'
+
       - name: Copy files to deploy folder
         run: ssh server 'cp -a /repo/ballz-game-clone/dist. /var/www/ballz/'
