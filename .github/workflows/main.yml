@@ -30,13 +30,13 @@ jobs:
           SSH_HOST: ${{secrets.SSH_HOST}}
 
       - name: Pull from github
-        run: ssh server 'cd /repo/ballz-game-clone && git pull'
+        run: ssh -v server 'cd /repo/ballz-game-clone && git pull'
 
       - name: Install dependencies
-        run: ssh server 'npm install'
+        run: ssh -v server 'npm install'
 
       - name: Build project
-        run: ssh server 'npm run build'
+        run: ssh -v server 'npm run build'
 
       - name: Copy files to deploy folder
-        run: ssh server 'cp -a /repo/ballz-game-clone/dist. /var/www/ballz/'
+        run: ssh -v server 'cp -a /repo/ballz-game-clone/dist. /var/www/ballz/'
