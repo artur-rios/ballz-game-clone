@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   deploy:
-    name: "Deploy to DigitalOcean"
+    name: "Build and Deploy"
     runs-on: ubuntu-latest
     steps:
       - name: Configure SSH
