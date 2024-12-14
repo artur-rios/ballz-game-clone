@@ -38,5 +38,8 @@ jobs:
       - name: Build project
         run: ssh server 'cd /repo/ballz-game-clone && npm run build'
 
+      - name: Clean deploy folder
+        run: ssh server 'rm -r /var/www/ballz/*'
+
       - name: Copy files to deploy folder
-        run: ssh server 'cp -r /repo/ballz-game-clone/dist/ /var/www/ballz/'
+        run: ssh server 'cp -r /repo/ballz-game-clone/dist/. /var/www/ballz/'
